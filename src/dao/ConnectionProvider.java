@@ -7,12 +7,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.io.File;
+import java.util.logging.Logger;
 /**
  *
  * @author HP
  */
 public class ConnectionProvider {
+    private static final Logger LOGGER = Logger.getLogger(ConnectionProvider.class.getName());
 
+    @SuppressWarnings("deprecation")
     public static Connection getCon() {
         try {
             Class.forName("org.sqlite.JDBC");
@@ -34,7 +37,7 @@ public class ConnectionProvider {
             return con;
 
         } catch (Exception e) {
-            e.printStackTrace(); // shows real error if any
+            LOGGER.severe("Connection failed: " + e.getMessage());
             return null;
         }
     }

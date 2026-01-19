@@ -231,6 +231,12 @@ public class Login extends javax.swing.JFrame {
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled.png"))); // NOI18N
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
+        lblErrorMessage = new javax.swing.JLabel();
+        lblErrorMessage.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        lblErrorMessage.setForeground(new java.awt.Color(192, 57, 43));
+        lblErrorMessage.setText("");
+        getContentPane().add(lblErrorMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 420, 450, 20));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 

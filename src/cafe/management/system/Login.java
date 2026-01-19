@@ -13,8 +13,9 @@ import javax.swing.ImageIcon;
  */
 public class Login extends javax.swing.JFrame {
     
-    public String emailPattern = "^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
-    
+    // Username validation pattern (alphanumeric and underscore)
+    public String usernamePattern = "^[A-Za-z0-9_]{3,20}$";
+    private boolean showPassword = false;
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
 
@@ -24,26 +25,62 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         btnLogin.setEnabled(false);
+        setupUI();
+    }
+    
+    private void setupUI() {
+        // Set placeholder text
+        txtUsername.setText("");
+        txtPassword.setText("");
         
+        // Add focus listeners for better UX
+        txtUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txtUsername.getText().isEmpty()) {
+                    txtUsername.setForeground(new java.awt.Color(44, 62, 80));
+                }
+            }
+        });
         
+        // Set minimum window size
+        setMinimumSize(new java.awt.Dimension(1000, 680));
     }
     
     public void clear(){
-          
-        txtEmail.setText("");
+        txtUsername.setText("");
         txtPassword.setText("");
         btnLogin.setEnabled(false);
-        
+        lblErrorMessage.setText("");
     }
     
     public void validateFields(){
-        String email = txtEmail.getText();
-        String password = txtPassword.getText();
-        if(email.matches(emailPattern)&& !password.equals("")){
-            btnLogin.setEnabled(true);
-        }
-        else{
+        String username = txtUsername.getText().trim();
+        String password = new String(txtPassword.getPassword());
+        
+        // Real-time validation feedback
+        if (username.isEmpty() || password.isEmpty()) {
             btnLogin.setEnabled(false);
+            lblErrorMessage.setText("");
+        } else if (!username.matches(usernamePattern)) {
+            btnLogin.setEnabled(false);
+            lblErrorMessage.setText("<html><span style='color:orange'>Username: 3-20 chars (letters, numbers, underscore)</span></html>");
+        } else if (password.length() < 4) {
+            btnLogin.setEnabled(false);
+            lblErrorMessage.setText("<html><span style='color:orange'>Password must be at least 4 characters</span></html>");
+        } else {
+            btnLogin.setEnabled(true);
+            lblErrorMessage.setText("");
+        }
+    }
+    
+    public void togglePasswordVisibility() {
+        showPassword = !showPassword;
+        if (showPassword) {
+            txtPassword.setEchoChar((char) 0); // Show password
+            btnShowPassword.setText("Hide");
+        } else {
+            txtPassword.setEchoChar('•'); // Hide password
+            btnShowPassword.setText("Show");
         }
     }
 
@@ -59,7 +96,7 @@ public class Login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
+        txtUsername = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
@@ -79,7 +116,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(52, 73, 94));
-        jLabel2.setText("Email Address");
+        jLabel2.setText("Username");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 280, 120, 28));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -87,23 +124,23 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setText("Password");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 350, 100, 24));
 
-        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        txtEmail.setBackground(new java.awt.Color(255, 255, 255));
-        txtEmail.setForeground(new java.awt.Color(44, 62, 80));
-        txtEmail.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+        txtUsername.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        txtUsername.setBackground(new java.awt.Color(255, 255, 255));
+        txtUsername.setForeground(new java.awt.Color(44, 62, 80));
+        txtUsername.setBorder(javax.swing.BorderFactory.createCompoundBorder(
             javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 195, 199), 1),
             javax.swing.BorderFactory.createEmptyBorder(8, 12, 8, 12)));
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+        txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
+                txtUsernameActionPerformed(evt);
             }
         });
-        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtUsername.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtEmailKeyReleased(evt);
+                txtUsernameKeyReleased(evt);
             }
         });
-        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 310, 450, 40));
+        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 310, 450, 40));
 
         txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         txtPassword.setBackground(new java.awt.Color(255, 255, 255));
@@ -126,7 +163,7 @@ public class Login extends javax.swing.JFrame {
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnLogin.setBackground(new java.awt.Color(41, 128, 185));
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
-        btnLogin.setText("LOGIN");
+        btnLogin.setText("SIGN IN");
         btnLogin.setFocusPainted(false);
         btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 30, 12, 30));
         btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -198,31 +235,38 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-     String email = txtEmail.getText();
-     String password = txtPassword.getText();
-     User user = null;
-     user = UserDao.login(email, password);
-     if(user == null)
-         JOptionPane.showMessageDialog(null,"<html><b style=\"color:red\">Incorrect Username or Password</b></html>","Message", JOptionPane.ERROR_MESSAGE);
-     else{
-         if(user.getStatus().equals("false")){
-             
-             ImageIcon icon =new ImageIcon("src/popupicon/wait.png");
-             JOptionPane.showMessageDialog(null,"<html><b>Wait for Admin Approval</b></html>", "Message",JOptionPane.INFORMATION_MESSAGE,icon);
-             clear();
-         }
-         
-         if(user.getStatus().equals("true")){
-             
-             setVisible(false);
-             new Home(email).setVisible(true);
-         }
-     }
+        String username = txtUsername.getText().trim();
+        String password = new String(txtPassword.getPassword());
+        User user = null;
+        
+        lblErrorMessage.setText("<html><b>Logging in...</b></html>");
+        
+        user = UserDao.loginWithUsername(username, password);
+        if(user == null) {
+            lblErrorMessage.setText("<html><b style=\"color:red\">Incorrect Username or Password</b></html>");
+            JOptionPane.showMessageDialog(null,"<html><b style=\"color:red\">Incorrect Username or Password</b></html>","Login Failed", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            if(user.getStatus().equals("false")){
+                ImageIcon icon = new ImageIcon("src/popupicon/wait.png");
+                lblErrorMessage.setText("<html><b style=\"color:orange\">Waiting for Admin Approval</b></html>");
+                JOptionPane.showMessageDialog(null,"<html><b>Your account is awaiting admin approval.</b><br><b>Please try again later.</b></html>", "Pending Approval",JOptionPane.INFORMATION_MESSAGE,icon);
+                clear();
+            }
+            else if(user.getStatus().equals("true")){
+                lblErrorMessage.setText("<html><b style=\"color:green\">Login successful!</b></html>");
+                setVisible(false);
+                new Home(user.getEmail()).setVisible(true);
+            }
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
+    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
+        // Focus to password field on Enter
+        if (btnLogin.isEnabled()) {
+            txtPassword.requestFocus();
+        }
+    }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
         // TODO add your handling code here:
@@ -240,14 +284,16 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnExitActionPerformed
 
-    private void txtEmailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyReleased
-        // TODO add your handling code here:
+    private void txtUsernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsernameKeyReleased
         validateFields();
-    }//GEN-LAST:event_txtEmailKeyReleased
+    }//GEN-LAST:event_txtUsernameKeyReleased
 
     private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
-        // TODO add your handling code here:
         validateFields();
+        // Allow Enter key to login when form is valid
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER && btnLogin.isEnabled()) {
+            btnLoginActionPerformed(null);
+        }
     }//GEN-LAST:event_txtPasswordKeyReleased
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -257,10 +303,13 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-         setVisible(false);
+        setVisible(false);
         new ForgotPassword().setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void btnShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnShowPasswordActionPerformed
+        togglePasswordVisibility();
+    }//GEN-LAST:event_btnShowPasswordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -291,13 +340,15 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnShowPassword;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField txtEmail;
+    private javax.swing.JLabel lblErrorMessage;
+    private javax.swing.JTextField txtUsername;
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
 }

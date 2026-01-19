@@ -10,7 +10,8 @@ package model;
  */
 public class User {
     private int id;
-    private String name;
+    private String name;  // username
+    private String fullName;  // full name
     private String email;
     private String mobileNumber;
     private String address;
@@ -33,6 +34,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {

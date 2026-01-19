@@ -14,7 +14,8 @@ import dao.UserDao;
  */
 public class Signup extends javax.swing.JFrame {
 
-    public String emailPattern = "^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
+    public String usernamePattern = "^[A-Za-z0-9_]{3,20}$";
+    public String emailPattern = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
     public String mobileNumberPattern = "^[0-9]*$";
 
     /**
@@ -27,7 +28,8 @@ public class Signup extends javax.swing.JFrame {
     }
 
     public void clear() {
-        txtName.setText("");
+        txtFullName.setText("");
+        txtUsername.setText("");
         txtEmail.setText("");
         txtMobileNumber.setText("");
         txtAddress.setText("");
@@ -39,14 +41,18 @@ public class Signup extends javax.swing.JFrame {
     }
 
     public void validateFields() {
-        String name = txtName.getText();
-        String email = txtEmail.getText();
-        String mobileNumber = txtMobileNumber.getText();
-        String address = txtAddress.getText();
+        String fullName = txtFullName.getText().trim();
+        String username = txtUsername.getText().trim();
+        String email = txtEmail.getText().trim();
+        String mobileNumber = txtMobileNumber.getText().trim();
+        String address = txtAddress.getText().trim();
         String password = txtPassword.getText();
-        String securityQuestion = txtSecurityQuestion.getText();
-        String answer = txtAnswer.getText();
-        if (!name.equals("") && email.matches(emailPattern) && mobileNumber.matches(mobileNumberPattern) && mobileNumber.length() == 10 && !address.equals("") && !password.equals("") && !securityQuestion.equals("") && !answer.equals("")) {
+        String securityQuestion = txtSecurityQuestion.getText().trim();
+        String answer = txtAnswer.getText().trim();
+        
+        if (!fullName.isEmpty() && username.matches(usernamePattern) && email.matches(emailPattern) && 
+            mobileNumber.matches(mobileNumberPattern) && mobileNumber.length() == 10 && !address.isEmpty() && 
+            !password.isEmpty() && !securityQuestion.isEmpty() && !answer.isEmpty()) {
             btnSave.setEnabled(true);
         } else {
             btnSave.setEnabled(false);
@@ -71,7 +77,8 @@ public class Signup extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
+        txtFullName = new javax.swing.JTextField();
+        txtUsername = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         txtMobileNumber = new javax.swing.JTextField();
         txtAddress = new javax.swing.JTextField();
@@ -96,40 +103,48 @@ public class Signup extends javax.swing.JFrame {
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 130, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Name");
+        jLabel2.setText("Full Name");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 220, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("Email");
+        jLabel3.setText("Username");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 260, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel4.setText("Mobile Number");
+        jLabel4.setText("Email");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 300, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setText("Address");
+        jLabel5.setText("Mobile Number");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 340, -1, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setText("Password");
+        jLabel6.setText("Address");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 390, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setText("Security Question");
+        jLabel7.setText("Password");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 440, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setText("Answer");
+        jLabel8.setText("Security Question");
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 480, -1, -1));
 
-        txtName.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        txtName.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtFullName.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtFullName.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtNameKeyReleased(evt);
             }
         });
-        getContentPane().add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 220, 345, -1));
+        getContentPane().add(txtFullName, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 220, 345, -1));
+
+        txtUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNameKeyReleased(evt);
+            }
+        });
+        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 260, 345, -1));
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -137,7 +152,7 @@ public class Signup extends javax.swing.JFrame {
                 txtEmailKeyReleased(evt);
             }
         });
-        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 260, 345, -1));
+        getContentPane().add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 300, 345, -1));
 
         txtMobileNumber.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtMobileNumber.addActionListener(new java.awt.event.ActionListener() {
@@ -150,7 +165,7 @@ public class Signup extends javax.swing.JFrame {
                 txtMobileNumberKeyReleased(evt);
             }
         });
-        getContentPane().add(txtMobileNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 300, 345, -1));
+        getContentPane().add(txtMobileNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 340, 345, -1));
 
         txtAddress.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtAddress.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -158,7 +173,7 @@ public class Signup extends javax.swing.JFrame {
                 txtAddressKeyReleased(evt);
             }
         });
-        getContentPane().add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 340, 345, -1));
+        getContentPane().add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 390, 345, -1));
 
         txtSecurityQuestion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtSecurityQuestion.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -166,7 +181,7 @@ public class Signup extends javax.swing.JFrame {
                 txtSecurityQuestionKeyReleased(evt);
             }
         });
-        getContentPane().add(txtSecurityQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 440, 345, -1));
+        getContentPane().add(txtSecurityQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 480, 345, -1));
 
         txtAnswer.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtAnswer.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -174,7 +189,7 @@ public class Signup extends javax.swing.JFrame {
                 txtAnswerKeyReleased(evt);
             }
         });
-        getContentPane().add(txtAnswer, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 480, 345, -1));
+        getContentPane().add(txtAnswer, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 520, 345, -1));
 
         txtPassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -182,7 +197,11 @@ public class Signup extends javax.swing.JFrame {
                 txtPasswordKeyReleased(evt);
             }
         });
-        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 390, 345, -1));
+        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 440, 345, -1));
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel8.setText("Answer");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 520, -1, -1));
 
         btnSave.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/save.png"))); // NOI18N
@@ -192,7 +211,7 @@ public class Signup extends javax.swing.JFrame {
                 btnSaveActionPerformed(evt);
             }
         });
-        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 520, -1, -1));
+        getContentPane().add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 570, 100, -1));
 
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/clear.png"))); // NOI18N
@@ -202,7 +221,7 @@ public class Signup extends javax.swing.JFrame {
                 btnClearActionPerformed(evt);
             }
         });
-        getContentPane().add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 520, -1, 30));
+        getContentPane().add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 610, 100, 30));
 
         btnExit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/exit small.png"))); // NOI18N
@@ -212,7 +231,7 @@ public class Signup extends javax.swing.JFrame {
                 btnExitActionPerformed(evt);
             }
         });
-        getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 520, -1, -1));
+        getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 650, 100, -1));
 
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton4.setText("Forget Password ?");
@@ -221,7 +240,7 @@ public class Signup extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 580, -1, -1));
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 690, 145, -1));
 
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton5.setText("Login");
@@ -230,7 +249,7 @@ public class Signup extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 580, -1, -1));
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 730, 145, -1));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled.png"))); // NOI18N
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -249,15 +268,15 @@ public class Signup extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
         User user = new User();
-        user.setName(txtName.getText());
-        user.setEmail(txtEmail.getText());
-        user.setMobileNumber(txtMobileNumber.getText());
-        user.setAddress(txtAddress.getText());
+        user.setName(txtUsername.getText().trim());
+        user.setFullName(txtFullName.getText().trim());
+        user.setEmail(txtEmail.getText().trim());
+        user.setMobileNumber(txtMobileNumber.getText().trim());
+        user.setAddress(txtAddress.getText().trim());
         user.setPassword(txtPassword.getText());
-        user.setSecurityQuestion(txtSecurityQuestion.getText());
-        user.setAnswer(txtAnswer.getText());
+        user.setSecurityQuestion(txtSecurityQuestion.getText().trim());
+        user.setAnswer(txtAnswer.getText().trim());
         UserDao.save(user);
         clear();
 
@@ -371,7 +390,8 @@ public class Signup extends javax.swing.JFrame {
     private javax.swing.JTextField txtAnswer;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtMobileNumber;
-    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtFullName;
+    private javax.swing.JTextField txtUsername;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtSecurityQuestion;
     // End of variables declaration//GEN-END:variables

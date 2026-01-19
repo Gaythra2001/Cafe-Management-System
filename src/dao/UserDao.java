@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class UserDao {
      public static void save(User user){
         String Query = "insert into user(name,email,mobileNumber,address,password,securityQuestion,answer,status) values('"+user.getName()+ "','"+user.getEmail()+ "','"+user.getMobileNumber()+ "','"+user.getAddress()+ "','"+user.getPassword()+ "','"+user.getSecurityQuestion()+ "','"+user.getAnswer()+ "','false')";
-    DbOperations.setDataOrDelete(Query,"Registered Successfully! Wait for Admin Approval!");
+        DbOperations.setDataOrDelete(Query,"Account Created Successfully!\nUsername: " + user.getName() + "\nWait for Admin Approval!");
     
     }
      
@@ -27,6 +27,28 @@ public class UserDao {
             while (rs.next()){
                 user = new User();
                 user.setStatus(rs.getString("status"));
+                user.setEmail(rs.getString("email"));
+            }
+         
+         }
+         catch(Exception e){
+             JOptionPane.showMessageDialog(null,e);
+             
+         }
+             
+         return user;
+     }
+     
+     public static User loginWithUsername(String username,String password){
+         User user = null;
+         try{
+         
+            ResultSet rs = DbOperations.getData("select * from user where name='" + username+ "' and password='" +password+"'");
+            while (rs.next()){
+                user = new User();
+                user.setStatus(rs.getString("status"));
+                user.setEmail(rs.getString("email"));
+                user.setName(rs.getString("name"));
             }
          
          }

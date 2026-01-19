@@ -1,16 +1,20 @@
 # Cafe Management System
 
-Swing desktop app for cafes: manage users, catalog, orders, and PDF bills backed by SQLite.
+Secure Swing desktop app for cafes: manage users, catalog, orders, and PDF bills backed by SQLite.
 
-## Why It’s Useful
-- Username-based auth with admin approval and recovery (security Q/A, forgot password)
+## Why It's Useful
+- **Secure authentication** with SQL injection protection and admin approval workflow
+- Username-based auth with account recovery (security Q/A, forgot password)
 - Full menu and category maintenance; order flow generates printable PDF bills
-- Modernized login/signup UX with validation and password toggle
+- Modernized login/signup UX with real-time validation and password visibility toggle
 - Portable: ships with SQLite; first run creates the local DB automatically
+- Professional error logging and resource management—no memory leaks
 
 ## Tech Snapshot
 - Java 21 + Swing UI
-- SQLite (jdbc:sqlite)
+- SQLite (jdbc:sqlite) with WAL mode for concurrency
+- **Secure**: PreparedStatements prevent SQL injection attacks
+- **Logging**: Java Logger for production-ready error tracking
 - JARs: sqlite-jdbc-simple.jar, AbsoluteLayout.jar, itextpdf-5.5.9.jar
 
 ## Quickstart
@@ -35,6 +39,8 @@ javac -d build/classes -cp "build/classes;lib/sqlite-jdbc-simple.jar;lib/absolut
 
 ## Data + Files
 - DB lives at `%USERPROFILE%/cafe_management_system.db` (WAL mode on); auto-created on first run
+- **Security**: All queries use parameterized PreparedStatements to prevent SQL injection
+- **Performance**: Foreign keys enforced, cache optimized, 5-second busy timeout
 - New signups stay pending until approved via Verify Users
 - Keep bundled libraries in [lib](lib) and images in [src/images](src/images) when redistributing
 
@@ -56,3 +62,10 @@ javac -d build/classes -cp "build/classes;lib/sqlite-jdbc-simple.jar;lib/absolut
 ## Tips
 - Ship the `lib` jars alongside the compiled classes when distributing.
 - If you customize layouts, remember the UI uses AbsoluteLayout.
+
+## Security Features
+- **SQL Injection Protection**: All database queries use PreparedStatements with parameterized inputs
+- **Error Handling**: Professional logging with java.util.logging.Logger instead of stack traces
+- **Resource Management**: Proper connection and statement cleanup prevents leaks
+- **Input Validation**: Real-time field validation on login and signup forms
+- **Session Management**: Secure user authentication with status verification

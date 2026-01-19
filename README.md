@@ -22,6 +22,12 @@ Swing desktop app for cafes: manage users, catalog, orders, and PDF bills backed
 java -cp "build/classes;lib/sqlite-jdbc-simple.jar;lib/absolutelayout/AbsoluteLayout.jar;lib/itextpdf-5.5.9.jar" cafe.management.system.CafeManagementSystem
 ```
 
+### Demo Credentials (Pre-Loaded Admin)
+- **Username:** admin
+- **Password:** nnkk
+- **Email:** admin@gmail.com
+- **Status:** Already approved
+
 ## Build From Source
 ```bash
 javac -d build/classes -cp "build/classes;lib/sqlite-jdbc-simple.jar;lib/absolutelayout/AbsoluteLayout.jar;lib/itextpdf-5.5.9.jar" src/cafe/management/system/*.java src/dao/*.java src/model/*.java src/common/*.java

@@ -1,17 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import javax.swing.JOptionPane;
 import model.User;
 import java.sql.*;
+import java.util.logging.Logger;
 /**
  *
  * @author HP
  */
 public class DbOperations {
+    private static final Logger LOGGER = Logger.getLogger(DbOperations.class.getName());
+    
+    @SuppressWarnings("deprecation")
     public static void setDataOrDelete(String Query,String msg){
         Connection con = null;
         Statement st = null;
@@ -32,19 +32,23 @@ public class DbOperations {
         catch(Exception e){
             try {
                 if(con != null) con.rollback(); // Rollback on error
-            } catch(Exception ex) {}
+            } catch(Exception ex) {
+                LOGGER.warning("Rollback failed: " + ex.getMessage());
+            }
             JOptionPane.showMessageDialog( null,e,"Message",JOptionPane.ERROR_MESSAGE);
+            LOGGER.severe("Database operation error: " + e.getMessage());
         }
         finally {
             try {
                 if(st != null) st.close();
                 if(con != null) con.close();
             } catch(Exception e) {
-                e.printStackTrace();
+                LOGGER.warning("Error closing resources: " + e.getMessage());
             }
         }
     }
     
+    @SuppressWarnings("deprecation")
     public static ResultSet getData(String query){
         
         try{
@@ -61,13 +65,9 @@ public class DbOperations {
         }
         
         catch(Exception e){
-            e.printStackTrace();
            JOptionPane.showMessageDialog( null,e,"Message",JOptionPane.ERROR_MESSAGE);
+           LOGGER.severe("Database query error: " + e.getMessage());
            return null;
         }
     }
-    
-    
-    
-    
 }
